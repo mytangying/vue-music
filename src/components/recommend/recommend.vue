@@ -4,21 +4,21 @@
   </div>
 </template>
 <script>
-import { getRecommend } from '../../api/recommend.js'
-import { ERR_OK } from '../../api/config.js'
+import { commonParam } from 'api/config'
 export default {
-  created() {
-    this._getRecommend()
-  },
-  methods: {
-    _getRecommend() {
-      console.log(getRecommend())
-      getRecommend().then((res) => {
-        if (res.code === ERR_OK) {
-          console.log(res.data.slider)
-        }
-      })
+  data() {
+    return {
+      data: '',
+      url: 'http://www.wangyanan.win:8000/music/json/https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg/'
     }
+  },
+  mounted() {
+    this.$http.get(this.url + commonParam).then(response => {
+      this.data = response.body.data.slider
+      console.log(this.data)
+    }, response => {
+      console.log('error')
+    })
   }
 }
 </script>
