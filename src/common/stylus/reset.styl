@@ -1,9 +1,18 @@
 @import "variable.styl"
-html,body
-	background:$color-background
-	color:$color-text
-a{
-	color:$color-text-l
-	font-size:$font-size-medium
-	text-decoration:none
-}
+html, body
+  background: $color-background
+  color: $color-text
+a
+  color: $color-text-l
+  font-size: $font-size-medium
+  text-decoration: none
+
+.clearfix:before, .clearfix:after
+  content: ''
+  display: block
+  clear: both
+  visibility: hidden
+  height: 0
+
+.clearfix
+  zoom: 1

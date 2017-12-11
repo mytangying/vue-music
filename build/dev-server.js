@@ -22,6 +22,21 @@ const autoOpenBrowser = !!config.dev.autoOpenBrowser
 const proxyTable = config.dev.proxyTable
 
 const app = express()
+// const apiRoutes = express.Router()
+// apiRoutes.get('/getSinger',function(req,res){
+//   const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
+//   axios.get(url,{
+//     headers:{
+//       referer: 'https://c.y.qq.com/',
+//       host: 'c.y.qq.com'
+//     },
+//     params:req.query
+//   }).then((response)=>{
+//     res.json(response.data)
+//   }).catch((e)=>{
+//     console.log(e)
+//   })
+// })
 const compiler = webpack(webpackConfig)
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -49,7 +64,7 @@ app.use(hotMiddleware)
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
-  const options = proxyTable[context]
+  var options = proxyTable[context]
   if (typeof options === 'string') {
     options = { target: options }
   }
