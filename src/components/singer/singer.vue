@@ -1,22 +1,24 @@
 <template>
-  <div class="">
-    歌手列表
+  <div class="singer-container">
+    <div v-for="item in singerList">
+      <a href="">{{item.Fsinger_name}}-{{item.Findex}}</a>
+    </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
-//  import { getSinger } from 'api/singer'
+  //  import { getSinger } from 'api/singer'
   import { commonParam2 } from 'api/config'
   export default {
     data() {
       return {
-        data: '',
+        singerList: [],
         url: 'http://www.wangyanan.win:8000/music/json/https://c.y.qq.com/v8/fcg-bin/v8.fcg/'
       }
     },
     mounted() {
       this.$http.get(this.url + commonParam2).then(response => {
-        this.data = response
-        console.log(this.data)
+        this.singerList = JSON.parse(response.body).data.list
+        console.log(this.singerList)
       }, response => {
         console.log('error')
       })

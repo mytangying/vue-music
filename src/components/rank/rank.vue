@@ -1,29 +1,56 @@
 <template>
-  <div class="">
-    排行榜
+  <div class="rank-container">
+    <div class="rank-list clearfix" v-for="item in rankList">
+      <div class="icon">
+        <img :src="item.picUrl" width="100">
+      </div>
+      <div class="songlist">
+        <ul>
+          <li v-for="list,index in item.songList">{{index + 1}} {{list.songname}}-{{list.singername}}</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { commonParam } from 'api/config'
-export default {
-  data() {
-    return {
-      data: '',
-      url: 'http://www.wangyanan.win:8000/music/json/https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg/'
+  import { commonParam } from 'api/config'
+  export default {
+    data() {
+      return {
+        rankList: [],
+        url: 'http://www.wangyanan.win:8000/music/json/https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg/'
+      }
+    },
+    mounted() {
+      this.$http.get(this.url + commonParam).then(response => {
+        this.rankList = response.body.data.topList
+        console.log(this.rankList)
+      }, response => {
+        console.log('error')
+      })
     }
-  },
-  mounted() {
-    this.$http.get(this.url + commonParam).then(response => {
-      this.data = JSON.parse(response.bodyText.slice(18, -1)).data.topList
-      console.log(this.data)
-    }, response => {
-      console.log('error')
-    })
   }
-}
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped rel="stylesheet/stylus" lang="stylus">
+  @import '../../common/stylus/variable.styl'
+  .rank-list
+    margin:20px;
+    .icon
+      float: left
+      padding-right: 10px
+      img
+        display: block
+    .songlist
+      background: $color-highlight-background
+      padding: 11px 0
+      li
+        color: $color-text-d
+        font-size: $font-size-small
+        line-height: 26px
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
 
 
 </style>
