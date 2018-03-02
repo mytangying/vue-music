@@ -15,9 +15,9 @@
 </script>
 <style rel="stylesheet/stylus" lang="stylus">
   @import '../../common/stylus/variable.styl'
-.loading
-  text-align: center
-  .text
-    margin-top:10px
-    color: $color-text-d
+  .loading
+    text-align: center
+    .text
+      margin-top:10px
+      color: $color-text-d
 </style>

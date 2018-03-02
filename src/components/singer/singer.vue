@@ -1,13 +1,15 @@
 <template>
   <div class="singer-container">
-    <div v-for="item in singerList">
-      <a href="">{{item.Fsinger_name}}-{{item.Findex}}</a>
-    </div>
+    <list-view :data="singerList"></list-view>
   </div>
 </template>
 <script type="text/ecmascript-6">
   //  import { getSinger } from 'api/singer'
   import { commonParam2 } from 'api/config'
+  import Singer from 'common/js/singer'
+  import ListView from 'base/listview/listview'
+  const HOT_NAME = '热门'
+  const HOT_SINGER_LEN = 10
   export default {
     data() {
       return {
@@ -17,28 +19,71 @@
     },
     mounted() {
       this.$http.get(this.url + commonParam2).then(response => {
-        this.singerList = JSON.parse(response.body).data.list
+        this.singerList = this._normalizeSinger(JSON.parse(response.body).data.list)
         console.log(this.singerList)
       }, response => {
         console.log('error')
       })
+    },
+    methods: {
+      _normalizeSinger(list) {
+        let map = {
+          hot: {
+            title: HOT_NAME,
+            items: []
+          }
+        }
+        list.forEach((item, index) => {
+          if (index < HOT_SINGER_LEN) {
+            map.hot.items.push(new Singer({
+              id: item.Fsinger_mid,
+              name: item.Fsinger_name
+              }))
+          }
+          const key = item.Findex
+          if (!map[key]) {
+            map[key] = {
+              title: key,
+              items: []
+            }
+          }
+          map[key].items.push(new Singer({
+            id: item.Fsinger_mid,
+            name: item.Fsinger_name
+            }))
+        })
+       // 为了得到有序列表，我们需要处理map
+        let hot = []
+        let ret = []
+        for (let key in map) {
+          let val = map[key]
+          if (val.title.match(/[a-zA-Z]/)) {
+            ret.push(val)
+          } else if (val.title === HOT_NAME) {
+            hot.push(val)
+          }
+        }
+        ret.sort((a, b) => {
+          return a.title.charCodeAt(0) - b.title.charCodeAt(0)
+        })
+        return hot.concat(ret)
+      }
+    },
+    components: {
+      ListView
     }
-//    created() {
-//      this._singer()
-//    },
-//    methods: {
-//      _singer() {
-//        getSinger().then((res) => {
-//          if (res.code === ERR_OK) {
-//            console.log(res)
-//          }
-//        })
-//      }
-//    }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped rel="stylesheet/stylus" lang="stylus">
-
+  .singer-container
+    position: fixed
+    width:100%
+    top: 100px
+    bottom:0
+    overflow: hidden
+    .listview
+      height:100%
+      overflow:hidden
 
 </style>

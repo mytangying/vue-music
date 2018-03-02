@@ -1,13 +1,17 @@
 <template>
   <div class="search-container">
     <div class="search-hotkey">
-      <a :href="search.special_url" class="special-key">{{search.special_key}}</a>
-      <a href="#" v-for="item in hotkey">{{item.k}}</a>
+      <a :href="search.special_url" class="special-key"  v-show="search.special_key">{{search.special_key}}</a>
+      <a href="#" v-for="item in hotkey" v-cloak>{{item.k}}</a>
+    </div>
+    <div class="loading-container" v-show="!hotkey.length">
+      <loading></loading>
     </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
   import { commonParam } from 'api/config'
+  import Loading from 'base/loading/loading'
   export default {
     data() {
       return {
@@ -24,6 +28,9 @@
       }, response => {
         console.log('error')
       })
+    },
+    components: {
+      Loading
     }
   }
 </script>
@@ -40,5 +47,9 @@
     .special-key
       border: 1px solid #fc4524
       color: #fc4524
-
+  .loading-container
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 </style>
