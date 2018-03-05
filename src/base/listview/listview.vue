@@ -7,11 +7,11 @@
           @scroll="scroll">
     <ul>
       <li v-for="group in data" class="list-group" ref="listGroup">
-        <h2 class="list-group-title" v-cloak>{{group.title}}</h2>
+        <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
-          <li v-for="item in group.items" class="list-group-item">
+          <li v-for="item in group.items" class="list-group-item" @click="selectItem(item)">
             <img class="avatar" v-lazy="item.avatar">
-            <span class="name" v-cloak>{{item.name}}</span>
+            <span class="name">{{item.name}}</span>
           </li>
         </ul>
       </li>
@@ -27,7 +27,7 @@
       </ul>
     </div>
     <div class="list-fixed" v-show="fixedTitle" ref="fixed">
-      <div class="fixed-title" v-cloak>{{fixedTitle}}</div>
+      <div class="fixed-title">{{fixedTitle}}</div>
     </div>
     <div class="loading-container" v-show="!data.length">
       <loading></loading>
@@ -75,6 +75,9 @@
       }
     },
     methods: {
+      selectItem(item) {
+        this.$emit('select', item)
+      },
       onShortcutTouchStart(e) {
         let anchorIndex = getData(e.target, 'index')
         this.touch.y1 = e.touches[0].pageY
@@ -205,9 +208,4 @@
       font-size: 12px
       color: hsla(0, 0%, 100%, .5)
       background: #333
-  .loading-container
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
 </style>

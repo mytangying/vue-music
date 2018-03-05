@@ -80,10 +80,6 @@
             overflow: hidden
             text-overflow: ellipsis
             white-space: nowrap
-      .loading-container
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
+
 
 </style>

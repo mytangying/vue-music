@@ -47,9 +47,4 @@
     .special-key
       border: 1px solid #fc4524
       color: #fc4524
-  .loading-container
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
 </style>

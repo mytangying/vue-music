@@ -5,9 +5,11 @@ import router from './router'
 import fastclick from 'fastclick'
 import VueResource from 'vue-resource'
 import VueLazyLoad from 'vue-lazyload'
+import VueJsonp from 'vue-jsonp'
 import 'common/stylus/index.styl'
 fastclick.attach(document.body)
 Vue.use(VueResource)
+Vue.use(VueJsonp)
 Vue.use(VueLazyLoad, {
   preLoad: 1.3,
   error: '',

@@ -1,6 +1,7 @@
 <template>
   <div class="singer-container">
-    <list-view :data="singerList"></list-view>
+    <list-view :data="singerList" @select="selectSinger"></list-view>
+    <router-view></router-view>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -20,12 +21,16 @@
     mounted() {
       this.$http.get(this.url + commonParam2).then(response => {
         this.singerList = this._normalizeSinger(JSON.parse(response.body).data.list)
-        console.log(this.singerList)
       }, response => {
         console.log('error')
       })
     },
     methods: {
+      selectSinger(singer) {
+        this.$router.push({
+          path: `/singer/${singer.id}`
+        })
+      },
       _normalizeSinger(list) {
         let map = {
           hot: {
